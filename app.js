@@ -2,12 +2,13 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const adminAuth = require('./middlewares/admin-auth');
-const userAuth = require('./middlewares/user-auth');
 const cors = require('cors')
 
 
 require('dotenv').config();
+
+const adminAuth = require('./middlewares/admin-auth');
+const userAuth = require('./middlewares/user-auth');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const categoriesRouter  = require('./routes/categories');
