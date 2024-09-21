@@ -1,0 +1,23 @@
+# Ignore Node.js files.
+/node_modules
+
+# Ignore environment files.
+/.env
+
+# Ignore editor files.
+/.idea
+/.vscode
+
+# Ignore system files.
+.DS_Store
+Thumbs.db
+
+# Ignore Docker data.
+/data
+
+#这里忽略了：
+#项目依赖的 npm 包
+#环境变量文件
+#WebStorm 与 VS Code 编辑器配置文件
+#macOS 与 Windows 的系统文件
+#Docker 运行 MySQL 的数据库文件
