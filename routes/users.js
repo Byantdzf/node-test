@@ -5,6 +5,17 @@ const { success, failure } = require('../utils/responses');
 const { BadRequestError, NotFoundError } = require("../utils/errors");
 const bcrypt = require('bcryptjs');
 
+// 七牛云配置文件
+const qiniu = require('qiniu');
+// 创建上传凭证（accessKey 和 secretKey在七牛云个人中心中有，blog 是七牛云创建的空间名称）
+const accessKey = 'urxHVWfni6OyJaRp-x0f_H79fQk3FX0ayVgodknc'; // ak密钥
+const secretKey = 'iT3ZAq5cA_XgvaY5H1Gd1Mi2x0ljG2eK0PYmzb3J'; // sk密钥
+const mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
+const options = {
+  scope: 'blog' // 存储空间的名字
+};
+const putPolicy = new qiniu.rs.PutPolicy(options);
+
 /**
  * 查询当前登录用户详情
  * GET /users/me
@@ -13,6 +24,19 @@ router.get('/me', async function (req, res) {
   try {
     const user = await getUser(req);
     success(res, '查询当前用户信息成功。', { user });
+  } catch (error) {
+    failure(res, error);
+  }
+});
+
+/**
+ * 查询当前登录用户七牛的token
+ * GET /users/me
+ */
+router.get('/getQiniuToken', async function (req, res) {
+  try {
+    const uploadToken = putPolicy.uploadToken(mac);
+    success(res, '获取QiNiuToken成功。', { uploadToken });
   } catch (error) {
     failure(res, error);
   }
