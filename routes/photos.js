@@ -49,7 +49,7 @@ router.post('/', async function (req, res, next) {
         console.log(body)
         const course = await Photo.create(body)
         // 201 代表添加了新的资源
-        success(res, "创建课程成功", {course}, 201)
+        success(res, "上传相册成功", {course}, 201)
     } catch (error) {
         failure(res, error)
     }
