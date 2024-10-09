@@ -90,25 +90,8 @@ router.get('/', async function (req, res, next) {
                 total: count, currentPage, pageSize
             }
         })
-        // res.json({
-        //     status: true,
-        //     message: 'success',
-        //     data: {
-        //         users: rows,
-        //         pagination: {
-        //             total: count,
-        //             currentPage,
-        //             pageSize
-        //         }
-        //     }
-        // })
     } catch (error) {
         failure(res, error)
-        // res.status(500).json({
-        //     status: false,
-        //     message: 'error',
-        //     errors: [error.message]
-        // })
     }
 });
 
@@ -137,11 +120,6 @@ router.post('/', async function (req, res, next) {
         // 201 代表添加了新的资源
         success(res, "创建用户成功", {user}, 201)
 
-        // res.status(201).json({
-        //     status: true,
-        //     message: 'success',
-        //     data: user
-        // })
     } catch (error) {
         failure(res, error)
     }
@@ -154,10 +132,6 @@ router.delete('/:id', async function (req, res, next) {
         const user = await getUser(req)
         await user.destroy()
         success(res, "删除用户成功")
-        // res.json({
-        //     status: true, message: 'success'
-        // })
-
     } catch (error) {
         failure(res, error)
     }
@@ -167,8 +141,6 @@ router.delete('/:id', async function (req, res, next) {
 // get /admin/users/:id
 router.put('/:id', async function (req, res, next) {
     try {
-        // const {id} = req.params
-        // const  user = await User.findByPk(id)
         const user = await getUser(req)
         const body = filterBody(req)
         await user.update(body)
