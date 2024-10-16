@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { success, failure } = require('../utils/responses');
-
+const { Attachment } = require('../models');
 
 
 const { config, client, singleFileUpload } = require('../utils/aliyun');
@@ -13,7 +13,7 @@ const { BadRequest } = require('http-errors')
  */
 router.post('/aliyun', function (req, res) {
     try {
-        singleFileUpload(req, res, function (error) {
+        singleFileUpload(req, res, async function (error) {
             if (error) {
                 return failure(res, error);
             }
@@ -22,7 +22,14 @@ router.post('/aliyun', function (req, res) {
                 return failure(res, new BadRequest('请选择要上传的文件。'));
             }
 
-            success(res, '上传成功。', { file: req.file });
+            // 记录附件信息
+            await Attachment.create({
+                ...req.file,
+                userId: req.userId,
+                fullpath: req.file.path + '/' + req.file.filename,
+            })
+
+            success(res, '上传成功。', { url: req.file.url });
         });
     } catch (error) {
         failure(res, error);

@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
 
             models.User.hasMany(models.Course,{as: 'courses'})
+            models.User.hasMany(models.Attachment, { as: 'attachments' });
             // define association here
         }
     }
