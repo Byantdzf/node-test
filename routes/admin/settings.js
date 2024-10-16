@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {Setting} = require('../../models')
-const { NotFoundError } = require('../../utils/errors');
+const { NotFound } = require('http-errors');
 const { success, failure } = require('../../utils/responses');
 
 
@@ -40,7 +40,7 @@ async function getSetting() {
     // const {id} = req.params // 获取系统设置id
     const setting = await Setting.findOne()
     if (!setting) {
-        throw new NotFoundError(`初始系统设置未找到，请运行种子文件`)
+        throw new NotFound(`初始系统设置未找到，请运行种子文件`)
     }
     return setting
 }

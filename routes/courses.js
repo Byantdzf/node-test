@@ -3,7 +3,7 @@ const router = express.Router();
 const { Course,Category,Chapter,User } = require('../models');
 
 // const { Op } = require('sequelize');
-const {NotFoundError} = require('../utils/errors')
+const {NotFound,BadRequest} = require('http-errors')
 const { success, failure } = require('../utils/responses');
 
 /**
@@ -18,7 +18,7 @@ router.get('/', async function (req, res) {
         const offset = (currentPage - 1) * pageSize;
 
         if (!query.categoryId) {
-            throw new Error('获取课程列表失败，分类ID不能为空。');
+            throw new BadRequest('获取课程列表失败，分类ID不能为空。');
         }
 
         const condition = {
@@ -73,7 +73,7 @@ router.get('/:id', async function (req, res) {
 
         const course = await Course.findByPk(id, condition);
         if (!course) {
-            throw new NotFoundError(`ID: ${ id }的课程未找到。`)
+            throw new NotFound(`ID: ${ id }的课程未找到。`)
         }
 
         success(res, '查询课程成功。', { course });

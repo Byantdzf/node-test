@@ -3,7 +3,7 @@ const router = express.Router();
 const { Course,Category,Chapter,User,Photo } = require('../models');
 
 // const { Op } = require('sequelize');
-const {NotFoundError} = require('../utils/errors')
+const {NotFound,BadRequest} = require('http-errors')
 const { success, failure } = require('../utils/responses');
 
 /**
@@ -16,11 +16,9 @@ router.get('/', async function (req, res) {
         const currentPage = Math.abs(Number(query.currentPage)) || 1;
         const pageSize = Math.abs(Number(query.pageSize)) || 10;
         const offset = (currentPage - 1) * pageSize;
-
         if (!query.userId) {
-            throw new Error('获取相册列表失败，用户ID不能为空。');
+            throw new BadRequest('获取相册列表失败，用户ID不能为空。');
         }
-
         const condition = {
             attributes: { exclude: ['UserId', 'content'] },
             where: { userId: query.userId },
