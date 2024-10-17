@@ -18,7 +18,7 @@ const client = new OSS(config);
 const upload = multer({
     storage: MAO({
         config: config,
-        destination: `images/${moment().format("YYYYMMDD")}`  // 自定义上传目录
+        destination: `images/${moment().format("YYYYMM")}`  // 自定义上传目录
     }),
     limits: {
         fileSize: 5 * 1024 * 1024, // 限制上传文件的大小为：5MB
