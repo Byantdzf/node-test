@@ -3,6 +3,8 @@ const MAO = require('multer-aliyun-oss');
 const OSS = require("ali-oss");
 const { BadRequest } = require('http-errors')
 
+const moment = require('moment');
+
 // 阿里云配置信息
 const config = {
     region: process.env.ALIYUN_REGION,
@@ -12,12 +14,11 @@ const config = {
 };
 
 const client = new OSS(config);
-
 // multer 配置信息
 const upload = multer({
     storage: MAO({
         config: config,
-        destination: 'uploads'  // 自定义上传目录
+        destination: `images/${moment().format("YYYYMMDD")}`  // 自定义上传目录
     }),
     limits: {
         fileSize: 5 * 1024 * 1024, // 限制上传文件的大小为：5MB
