@@ -19,18 +19,15 @@ router.post('/aliyun', function (req, res) {
             if (error) {
                 return failure(res, error);
             }
-
             if (!req.file) {
                 return failure(res, new BadRequest('请选择要上传的文件。'));
             }
-
             // 记录附件信息
             await Attachment.create({
                 ...req.file,
                 userId: req.userId,
                 fullpath: req.file.path + '/' + req.file.filename,
             })
-            // console.log("req",req,`https://oss.dengzhifeng.top/${req.file.path}/${req.file.filename}`)
             success(res, '上传成功。', { url: req.file.url });
         });
     } catch (error) {
