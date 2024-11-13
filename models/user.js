@@ -4,6 +4,7 @@ const {
 } = require('sequelize');
 const bcrypt = require('bcryptjs')
 const { BadRequest } = require('http-errors');
+const moment = require("moment");
 
 module.exports = (sequelize, DataTypes) => {
     class User extends Model {
@@ -100,7 +101,7 @@ module.exports = (sequelize, DataTypes) => {
                 validate: {
                     notNull: {msg: '性别必须填写。'},
                     notEmpty: {msg: '性别不能为空。'},
-                    isIn: {args: [[0, 1, 2]], msg: '性别的值必须是,男性:0女性:1未选择:2。'}
+                    isIn: {args: [[0, 1, 2]], msg: '性别的值必须是,未选择:0男:1女:2。'}
                 }
             },
             company: DataTypes.STRING,
@@ -119,9 +120,19 @@ module.exports = (sequelize, DataTypes) => {
                 validate: {
                     isUrl: {msg: '图片地址不正确。'}
                 }
+            },
+            createdAt: {
+                type: DataTypes.DATE,
+                get() {
+                    return moment(this.getDataValue("createdAt")).format("YYYY-MM-DD HH:mm:ss");
+                }
+            },
+            updatedAt: {
+                type: DataTypes.DATE,
+                get() {
+                    return moment(this.getDataValue("updatedAt")).format("YYYY-MM-DD HH:mm:ss");
+                }
             }
-
-
         },
         {
             sequelize,
